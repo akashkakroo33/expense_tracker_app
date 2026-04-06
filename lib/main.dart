@@ -23,6 +23,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> expenses = [];
 
+
+
+
   void addExpense() {
     TextEditingController amountController = TextEditingController();
     TextEditingController categoryController = TextEditingController();
@@ -112,6 +115,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  double getTotalExpenses() {
+    double getTotal = 0;
+    for (var expense in expenses){
+      getTotal += double.tryParse(expense['amount'] as String) ?? 0 ;
+    }
+    return getTotal;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,20 +141,48 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add),
       ),
 
-      body: expenses.isEmpty
-          ? Center(child: Text("No expenses added so far"))
-          : ListView.builder(
-              itemCount: expenses.length,
-              itemBuilder: (context, index) {
-                final expense = expenses[index];
-                return ListTile(
-                  leading: Icon(Icons.control_point_duplicate),
-                  title: Text(expense["category"]),
-                  subtitle: Text("₹${expense["amount"]}"),
-                  trailing: Text("${expense["date"].toLocal()}".split(' ')[0]),
-                );
-              },
+      body: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(20),
+            color: Colors.amber,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Total Expense",
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  "₹${getTotalExpenses()}",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
+          ),
+          Expanded(
+            child: expenses.isEmpty
+                ? Center(child: Text("No expenses added so far"))
+                : ListView.builder(
+                    itemCount: expenses.length,
+                    itemBuilder: (context, index) {
+                      final expense = expenses[index];
+                      return ListTile(
+                        leading: Icon(Icons.control_point_duplicate),
+                        title: Text(expense["category"]),
+                        subtitle: Text("₹${expense["amount"]}"),
+                        trailing: Text("${expense["date"].toLocal()}".split(' ')[0]),
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ),
     );
   }
 }
