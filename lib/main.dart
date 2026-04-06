@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
     TextEditingController categoryController = TextEditingController();
     DateTime selectedDate = DateTime.now();
 
-    print("I was pressed");
+
   }
 
   @override
