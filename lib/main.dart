@@ -174,6 +174,7 @@ class _HomePageState extends State<HomePage> {
                       final expense = expenses[index];
                       return ListTile(
                         leading: Icon(Icons.control_point_duplicate),
+                        hoverColor: Colors.lime,
                         title: Text(expense["category"]),
                         subtitle: Text("₹${expense["amount"]}"),
                         trailing: Text("${expense["date"].toLocal()}".split(' ')[0]),
